@@ -1,31 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Menu, X, ShieldCheck } from 'lucide-react';
+import { Menu, ShieldCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { cn } from '@/lib/utils';
 const NAV_LINKS = [
-  { name: 'Platform', href: '#platform' },
-  { name: 'Speech', href: '#speech' },
-  { name: 'Endorsements', href: '#endorsements' },
-  { name: 'Resources', href: '#resources' },
+  { name: 'Platform', href: '/#platform' },
+  { name: 'Speech', href: '/#speech' },
+  { name: 'Endorsements', href: '/#endorsements' },
+  { name: 'Resources', href: '/resources' },
 ];
 const DONATE_URL = "https://www.gofundme.com"; // Placeholder
 export function TopNav() {
-  const [isScrolled, setIsScrolled] = React.useState(false);
-  React.useEffect(() => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-    window.addEventListener('scroll', handleScroll);
+    // Check initial position
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
   return (
-    <header 
+    <header
       className={cn(
         "sticky top-0 z-50 w-full transition-all duration-300",
-        isScrolled 
-          ? "bg-campaign-navy/95 backdrop-blur-sm shadow-md py-3" 
+        isScrolled
+          ? "bg-campaign-navy/95 backdrop-blur-sm shadow-md py-3"
           : "bg-campaign-navy py-5"
       )}
     >
@@ -42,13 +44,23 @@ export function TopNav() {
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-8">
           {NAV_LINKS.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              className="text-sm font-bold text-white/90 hover:text-campaign-gold uppercase tracking-widest transition-colors"
-            >
-              {link.name}
-            </a>
+            link.href.startsWith('/#') ? (
+              <a
+                key={link.name}
+                href={link.href}
+                className="text-sm font-bold text-white/90 hover:text-campaign-gold uppercase tracking-widest transition-colors"
+              >
+                {link.name}
+              </a>
+            ) : (
+              <Link
+                key={link.name}
+                to={link.href}
+                className="text-sm font-bold text-white/90 hover:text-campaign-gold uppercase tracking-widest transition-colors"
+              >
+                {link.name}
+              </Link>
+            )
           ))}
           <Button asChild className="bg-campaign-gold text-campaign-navy hover:bg-campaign-gold/90 font-black px-6">
             <a href={DONATE_URL} target="_blank" rel="noopener noreferrer">DONATE</a>
@@ -69,13 +81,23 @@ export function TopNav() {
                 </div>
                 <div className="flex-1 px-6 py-8 space-y-6">
                   {NAV_LINKS.map((link) => (
-                    <a
-                      key={link.name}
-                      href={link.href}
-                      className="block text-2xl font-black uppercase tracking-tighter hover:text-campaign-gold"
-                    >
-                      {link.name}
-                    </a>
+                    link.href.startsWith('/#') ? (
+                      <a
+                        key={link.name}
+                        href={link.href}
+                        className="block text-2xl font-black uppercase tracking-tighter hover:text-campaign-gold"
+                      >
+                        {link.name}
+                      </a>
+                    ) : (
+                      <Link
+                        key={link.name}
+                        to={link.href}
+                        className="block text-2xl font-black uppercase tracking-tighter hover:text-campaign-gold"
+                      >
+                        {link.name}
+                      </Link>
+                    )
                   ))}
                 </div>
                 <div className="p-6 mt-auto">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   ShieldCheck,
   Users,
@@ -38,6 +38,10 @@ const PLATFORM_POINTS = [
   },
 ];
 export function HomePage() {
+  const navigate = useNavigate();
+  const handleResourcesClick = () => {
+    navigate('/resources');
+  };
   return (
     <RootLayout>
       {/* Hero Section */}
@@ -100,17 +104,15 @@ export function HomePage() {
           </div>
         </div>
       </section>
-      {/* Media Section */}
       <SpeechSection />
-      {/* Social Proof */}
       <EndorsementsCarousel />
       {/* Lead Capture Footer Teaser */}
-      <section id="resources" className="bg-slate-50 border-t border-slate-200">
+      <section id="updates" className="bg-slate-50 border-t border-slate-200">
         <div className="section-container">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-5 space-y-6">
               <h2 className="text-3xl font-black text-campaign-navy uppercase">Stay in the Loop</h2>
-              <p className="text-body">
+              <p className="text-body text-lg">
                 The campaign moves fast. Sign up for direct updates from Tricia and the organizing team. We never spam.
               </p>
               <div className="flex items-center gap-4 pt-4">
@@ -129,7 +131,7 @@ export function HomePage() {
         </div>
       </section>
       {/* Resources Quick Link */}
-      <section className="bg-campaign-navy py-12">
+      <section id="resources" className="bg-campaign-navy py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4 text-white">
             <FileDown className="h-10 w-10 text-campaign-gold" />
@@ -138,7 +140,10 @@ export function HomePage() {
               <p className="text-sm text-white/60">Download fliers, posters, and profile kits.</p>
             </div>
           </div>
-          <Button className="bg-campaign-gold text-campaign-navy hover:bg-campaign-gold/90 font-bold px-8">
+          <Button 
+            onClick={handleResourcesClick}
+            className="bg-campaign-gold text-campaign-navy hover:bg-campaign-gold/90 font-bold px-8"
+          >
             ACCESS RESOURCE CENTER
           </Button>
         </div>

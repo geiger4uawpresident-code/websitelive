@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Carousel,
   CarouselContent,
@@ -31,6 +31,17 @@ const ENDORSEMENTS = [
   }
 ];
 export function EndorsementsCarousel() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  if (!mounted) {
+    return (
+      <section id="endorsements" className="bg-white min-h-[400px] flex items-center justify-center">
+        <div className="w-8 h-8 border-4 border-campaign-navy border-t-campaign-gold rounded-full animate-spin" />
+      </section>
+    );
+  }
   return (
     <section id="endorsements" className="bg-white overflow-hidden">
       <div className="section-container">
@@ -39,12 +50,12 @@ export function EndorsementsCarousel() {
             <h2 className="text-4xl md:text-5xl font-black text-campaign-navy uppercase tracking-tight">
               Voices <span className="text-campaign-gold">For Change</span>
             </h2>
-            <p className="text-body max-w-xl">
+            <p className="text-body max-w-xl text-lg">
               Hear from the members and leaders who are standing with Tricia for a stronger, cleaner UAW.
             </p>
           </div>
         </div>
-        <div className="px-12">
+        <div className="px-4 md:px-12">
           <Carousel
             opts={{ align: "start", loop: true }}
             className="w-full"
@@ -52,19 +63,19 @@ export function EndorsementsCarousel() {
             <CarouselContent className="-ml-4">
               {ENDORSEMENTS.map((endorsement, index) => (
                 <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
-                  <Card className="border-none bg-slate-50 shadow-soft h-full">
+                  <Card className="border-none bg-slate-50 shadow-soft h-full hover:bg-slate-100 transition-colors">
                     <CardContent className="p-8 flex flex-col h-full">
                       <Quote className="h-8 w-8 text-campaign-gold mb-6 opacity-50" />
-                      <p className="text-lg font-medium text-campaign-navy mb-8 flex-1 italic">
+                      <p className="text-lg font-medium text-campaign-navy mb-8 flex-1 italic leading-relaxed">
                         "{endorsement.text}"
                       </p>
                       <div className="flex items-center gap-4 border-t border-slate-200 pt-6">
-                        <div className="h-10 w-10 rounded-full bg-campaign-navy flex items-center justify-center text-white font-bold text-sm">
+                        <div className="h-10 w-10 rounded-full bg-campaign-navy flex items-center justify-center text-white font-bold text-sm shrink-0">
                           {endorsement.name[0]}
                         </div>
-                        <div>
-                          <p className="font-bold text-campaign-navy leading-none mb-1">{endorsement.name}</p>
-                          <p className="text-xs text-muted-foreground uppercase tracking-wider">{endorsement.title}</p>
+                        <div className="overflow-hidden">
+                          <p className="font-bold text-campaign-navy leading-none mb-1 truncate">{endorsement.name}</p>
+                          <p className="text-xs text-muted-foreground uppercase tracking-wider truncate">{endorsement.title}</p>
                         </div>
                       </div>
                     </CardContent>
@@ -72,8 +83,8 @@ export function EndorsementsCarousel() {
                 </CarouselItem>
               ))}
             </CarouselContent>
-            <CarouselPrevious className="hidden md:flex -left-12 bg-campaign-navy text-white hover:bg-campaign-navy/90" />
-            <CarouselNext className="hidden md:flex -right-12 bg-campaign-navy text-white hover:bg-campaign-navy/90" />
+            <CarouselPrevious className="hidden md:flex -left-12 bg-campaign-navy text-white hover:bg-campaign-navy/90 border-none h-10 w-10" />
+            <CarouselNext className="hidden md:flex -right-12 bg-campaign-navy text-white hover:bg-campaign-navy/90 border-none h-10 w-10" />
           </Carousel>
         </div>
       </div>

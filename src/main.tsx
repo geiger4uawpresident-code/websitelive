@@ -1,7 +1,7 @@
 import '@/lib/errorReporter';
 import { enableMapSet } from "immer";
 enableMapSet();
-import { StrictMode } from 'react'
+import React, { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import {
   createBrowserRouter,
@@ -13,6 +13,7 @@ import { RouteErrorBoundary } from '@/components/RouteErrorBoundary';
 import '@/index.css'
 import { HomePage } from '@/pages/HomePage'
 import { JoinPage } from '@/pages/JoinPage'
+import { ResourcesPage } from '@/pages/ResourcesPage'
 import { Toaster } from '@/components/ui/sonner'
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
@@ -24,6 +25,11 @@ const router = createBrowserRouter([
   {
     path: "/join",
     element: <JoinPage />,
+    errorElement: <RouteErrorBoundary />,
+  },
+  {
+    path: "/resources",
+    element: <ResourcesPage />,
     errorElement: <RouteErrorBoundary />,
   },
 ]);
