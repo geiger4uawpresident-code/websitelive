@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -23,12 +23,11 @@ const amplifierSchema = updateSchema.extend({
 type UpdateValues = z.infer<typeof updateSchema>;
 type AmplifierValues = z.infer<typeof amplifierSchema>;
 export function UpdateForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
   const { register, handleSubmit, reset, formState: { errors } } = useForm<UpdateValues>({
     resolver: zodResolver(updateSchema)
   });
   const onSubmit = async (data: UpdateValues) => {
-    if (!data) return;
     setIsSubmitting(true);
     try {
       await api('/api/supporters', {
@@ -38,7 +37,7 @@ export function UpdateForm() {
       toast.success("Welcome to the team!", { description: "You've been added to our campaign updates." });
       reset();
     } catch (err) {
-      toast.error("Subscription failed", { description: err instanceof Error ? err.message : "Unknown error" });
+      toast.error("Subscription failed", { description: String(err) });
     } finally {
       setIsSubmitting(false);
     }
@@ -69,18 +68,17 @@ export function UpdateForm() {
 const INTEREST_OPTIONS = [
   { id: 'phone', label: 'Phone Banking' },
   { id: 'door', label: 'Door Canvassing' },
-  { id: 'social', label: 'Social Media Advocacy' },
-  { id: 'shop', label: 'In-Shop Organizing' },
+  { id: 'social', label: 'Social Media' },
+  { id: 'shop', label: 'In-Shop Advocacy' },
 ];
 export function AmplifierForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
   const { register, handleSubmit, setValue, watch, reset, formState: { errors } } = useForm<AmplifierValues>({
     resolver: zodResolver(amplifierSchema),
     defaultValues: { interests: [] }
   });
-  const selectedInterests = watch('interests') || [];
+  const selectedInterests = watch('interests');
   const onSubmit = async (data: AmplifierValues) => {
-    if (!data) return;
     setIsSubmitting(true);
     try {
       await api('/api/supporters', {
@@ -90,7 +88,7 @@ export function AmplifierForm() {
       toast.success("Application Received!", { description: "Our volunteer coordinator will reach out soon." });
       reset();
     } catch (err) {
-      toast.error("Failed to submit", { description: err instanceof Error ? err.message : "Unknown error" });
+      toast.error("Failed to submit", { description: String(err) });
     } finally {
       setIsSubmitting(false);
     }
@@ -99,29 +97,29 @@ export function AmplifierForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 bg-white p-8 md:p-12 rounded-2xl shadow-glass border border-white/20">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
-          <Label htmlFor="amplifier-name">Full Name</Label>
-          <Input id="amplifier-name" {...register('name')} />
+          <Label>Full Name</Label>
+          <Input {...register('name')} />
           {errors.name && <p className="text-xs text-red-500">{errors.name.message}</p>}
         </div>
         <div className="space-y-2">
-          <Label htmlFor="amplifier-email">Email Address</Label>
-          <Input id="amplifier-email" type="email" {...register('email')} />
+          <Label>Email Address</Label>
+          <Input type="email" {...register('email')} />
           {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
         </div>
         <div className="space-y-2">
-          <Label htmlFor="amplifier-phone">Phone Number</Label>
-          <Input id="amplifier-phone" {...register('phone')} placeholder="(555) 000-0000" />
+          <Label>Phone Number</Label>
+          <Input {...register('phone')} placeholder="(555) 000-0000" />
           {errors.phone && <p className="text-xs text-red-500">{errors.phone.message}</p>}
         </div>
         <div className="space-y-2">
-          <Label htmlFor="amplifier-shop">Shop / Local Number</Label>
-          <Input id="amplifier-shop" {...register('shopLocation')} placeholder="Local 600, etc." />
+          <Label>Shop / Local Number</Label>
+          <Input {...register('shopLocation')} placeholder="Local 600, etc." />
           {errors.shopLocation && <p className="text-xs text-red-500">{errors.shopLocation.message}</p>}
         </div>
       </div>
       <div className="space-y-2">
-        <Label htmlFor="amplifier-zip">Zip Code</Label>
-        <Input id="amplifier-zip" {...register('zipCode')} />
+        <Label>Zip Code</Label>
+        <Input {...register('zipCode')} />
         {errors.zipCode && <p className="text-xs text-red-500">{errors.zipCode.message}</p>}
       </div>
       <div className="space-y-4">
@@ -141,7 +139,7 @@ export function AmplifierForm() {
                   }
                 }}
               />
-              <label htmlFor={item.id} className="text-sm font-bold text-campaign-navy cursor-pointer select-none">
+              <label htmlFor={item.id} className="text-sm font-bold text-campaign-navy leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                 {item.label}
               </label>
             </div>

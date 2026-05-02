@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PlayCircle, FileText, Quote, Loader2 } from "lucide-react";
+import { PlayCircle, FileText, Quote } from "lucide-react";
 export function SpeechSection() {
-  const [isVideoLoading, setIsVideoLoading] = useState(true);
   return (
     <section id="speech" className="bg-slate-50 border-y border-slate-200 overflow-hidden">
       <div className="section-container">
@@ -33,45 +32,35 @@ export function SpeechSection() {
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="video" className="mt-6">
-                <div className="aspect-video w-full bg-campaign-navy/5 rounded-xl shadow-glass overflow-hidden relative group border border-slate-200">
-                  {isVideoLoading && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-slate-50 z-10">
-                      <Loader2 className="h-8 w-8 text-campaign-navy animate-spin" />
-                    </div>
-                  )}
+                <div className="aspect-video w-full bg-black rounded-xl shadow-glass overflow-hidden relative group">
                   <iframe
                     className="absolute inset-0 w-full h-full"
-                    src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                    src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
                     title="Campaign Launch Speech"
-                    onLoad={() => setIsVideoLoading(false)}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   ></iframe>
                 </div>
               </TabsContent>
-              <TabsContent value="transcript" className="mt-6 bg-white rounded-xl shadow-soft p-8 md:p-12 max-h-[600px] overflow-y-auto prose prose-slate max-w-none">
-                <h3 className="text-2xl font-black text-campaign-navy mb-6 uppercase tracking-tight">Launch Address: April 2026</h3>
-                <p className="font-bold text-campaign-navy text-lg">Fellow UAW Brothers and Sisters,</p>
-                <p className="text-base md:text-lg text-slate-700 leading-relaxed">
+              <TabsContent value="transcript" className="mt-6 bg-white rounded-xl shadow-soft p-8 md:p-12 max-h-[600px] overflow-y-auto prose prose-slate">
+                <h3 className="text-2xl font-black text-campaign-navy mb-6">Launch Address: April 2026</h3>
+                <p className="font-bold text-campaign-navy">Fellow UAW Brothers and Sisters,</p>
+                <p>
                   Today, I stand before you not just as a candidate, but as a worker who has seen the inside of our shops and the inside of our boardrooms. For too long, the distance between the two has grown too wide.
                 </p>
-                <div className="border-l-4 border-campaign-gold pl-6 py-2 my-8">
-                  <p className="text-xl md:text-2xl font-black text-campaign-navy italic leading-snug">
-                    "Our strength isn't in our bank account; it's in our solidarity. But solidarity cannot exist without trust."
-                  </p>
-                </div>
-                <p className="text-base md:text-lg text-slate-700 leading-relaxed">
+                <p className="border-l-4 border-campaign-gold pl-6 py-2 my-8 text-xl font-bold text-campaign-navy italic">
+                  "Our strength isn't in our bank account; it's in our solidarity. But solidarity cannot exist without trust."
+                </p>
+                <p>
                   Trust is earned when every member knows where every dollar goes. Trust is built when the smallest local has the same volume as the largest region. This campaign is about restoring that trust.
                 </p>
-                <p className="text-base md:text-lg text-slate-700 leading-relaxed mt-4">
+                <p>
                   We are entering a new era of labor. The challenges of automation, green energy transitions, and global shifts are not threats—they are opportunities for a UAW that is prepared, transparent, and unyielding.
                 </p>
-                <p className="text-base md:text-lg text-slate-700 leading-relaxed mt-4">
+                <p>
                   Join me. Not for my name, but for our union. Let's take it back.
                 </p>
-                <div className="mt-10 pt-6 border-t border-slate-100">
-                  <p className="font-black text-campaign-navy text-xl">— TRICIA GEIGER</p>
-                </div>
+                <p className="font-bold text-campaign-navy mt-8">— Tricia Geiger</p>
               </TabsContent>
             </Tabs>
           </div>
